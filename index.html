@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Stream Capture</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div id="main">
+        <div id="side-notes">
+            <h1 class="title">Stream Capture</h1>
+            <ul>
+                <li>Click the "Full Screen Snapshot" button to capture the entire stream area.</li>
+                <li>Click and drag across stream area to select a specific area to capture.</li>
+                <li>Url used is: <span id="url-used"></span> To change it, edit <b>main.js</b> file</li>
+            </ul>
+            <!-- <div id="header-settings">
+                <label><input type="url" name="stream-url" />capturing URL</label>
+            </div> -->
+        </div>
+        <div id="container">
+            <div id="capture">
+                <img id="stream" crossorigin="anonymous" alt="Stream is loading..." />
+                <canvas id="rectangle-overlay"></canvas>
+                <canvas id="guides-overlay"></canvas>
+            </div>
+        </div>
+        <div id="controls">
+            <div id="actions">
+                <button id="captureButton" onclick="capture()">Full Screen Snapshot</button>
+            </div>
+            <div id="settings">
+            </div>
+        </div>
+    </div>
+
+    <div id="tracker-container"><span id="tracker"></span></div>
+    <footer>
+        <p>Stream Capture tool brought to you by <a href="https://github.com/Gerqus">Gerqus</a> under MIT License</p>
+    </footer>
+    <canvas id="copy-canvas"></canvas>
+</body>
+
+</html>
