@@ -13,6 +13,7 @@ let popupElement;
 let mouseTrackerElement;
 let imgXOffset = 0;
 let imgYOffset = 0;
+let notificationsContainerElement;
 
 function debounce(func, wait, immediate) {
   let timeout;
@@ -34,6 +35,11 @@ window.onload = debounce(
   function () {
     window.onresize = window.onload;
     const sizeReadingImg = document.createElement('img');
+
+    notificationsContainerElement = document.getElementsByClassName(
+      'notifications-container',
+    )[0];
+
     sizeReadingImg.src = sourceStreamUrl;
     sizeReadingImg.onload = function () {
       sourceSize.width = sizeReadingImg.width;
@@ -319,7 +325,7 @@ function capture(
  * @param {number} duration - The duration to display the message
  * @returns {void}
  * */
-function showPopup(message, method, type = 'ok', duration = 5 * 1000) {
+function showPopup(message, method, type = 'ok', duration = 10 * 1000) {
   let allCurrentPopups = Array.from(document.getElementsByClassName('popup'));
   while (allCurrentPopups.length > 5) {
     allCurrentPopups[0].parentElement.removeChild(allCurrentPopups[0]);
@@ -336,33 +342,34 @@ function showPopup(message, method, type = 'ok', duration = 5 * 1000) {
     : 0;
 
   const popup = document.createElement('div');
-  popup.setAttribute('class', 'popup ' + type);
-  popup.style.transition = `opacity ${duration / 1000 / 3}s`;
-  popup.style.top = `calc(${lastCurrentPopupBottomPosition}px + 1rem)`;
+  popup.classList.add('popup', type);
+  popup.style.transition = `opacity ease-out ${
+    Math.round((duration / 1000 / 3) * 10) / 10
+  }s`;
 
   const popupMethod = document.createElement('span');
-  popupMethod.setAttribute('class', 'popup-method');
+  popupMethod.classList.add('popup-method');
   popupMethod.innerHTML = method;
   popup.appendChild(popupMethod);
 
   const popupTimestamp = new Date().toLocaleString();
   const popupTimestampElement = document.createElement('span');
-  popupTimestampElement.setAttribute('class', 'popup-timestamp');
+  popupTimestampElement.classList.add('popup-timestamp');
   popupTimestampElement.innerHTML = popupTimestamp;
   popup.appendChild(popupTimestampElement);
 
   const messageContainerElement = document.createElement('div');
-  messageContainerElement.setAttribute('class', 'popup-message');
+  messageContainerElement.classList.add('popup-message');
   messageContainerElement.innerHTML = message;
   popup.appendChild(messageContainerElement);
 
-  document.body.appendChild(popup);
+  notificationsContainerElement.appendChild(popup);
   popup.classList.add('show');
   setTimeout(() => {
     popup.classList.remove('show');
     setTimeout(() => {
-      if (document.body.contains(popup)) {
-        document.body.removeChild(popup);
+      if (notificationsContainerElement.contains(popup)) {
+        notificationsContainerElement.removeChild(popup);
       }
     }, duration / 3);
   }, (duration * 2) / 3);
